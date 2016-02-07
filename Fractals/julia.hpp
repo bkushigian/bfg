@@ -24,11 +24,18 @@ public:
     julia();
     julia(complex tl, complex br, Uint16 height, Uint16 width, Uint16 max);
     ~julia();
-    Uint16 iterations(complex z);
+	/* Inherited functions */
     void populateGrid();
     void resizeGrid(Uint16 h, Uint16 w);
+    Uint16* getGrid();
+	std::string getName() { return name; }
+	FRACTAL_TYPE getType() { return type; }
+	RNDR_MODE getMode() { return mode; }
+	void setName(std::string n) { name = n; }
+
+	/*  */
+	Uint16 iterations(complex z);
     Uint16 getGridAt(Uint16 y, Uint16 x);
-    Uint16* getGrid() override;
     Uint16 getHeight() { return height; }
     Uint16 getWidth() { return width; }
     void setC(complex C) { this->C = C;}
@@ -36,8 +43,8 @@ public:
     std::string toString();
     std::string toString(Uint16 chrs);
 private:
-    int charSize = 10;
-    char chars[10] = { '@', '.', '$', ',', '&', '-', '#', ' ', '+', '*'};
+    int charSize;
+	std::string chars;
     complex topleft;
     complex bottomright;
     complex C;
@@ -45,5 +52,9 @@ private:
     Uint16* grid;
     Uint16 width;
     Uint16 height;
+		
+	FRACTAL_TYPE type;
+	RNDR_MODE mode;
+	std::string name;
 };
 #endif /* julia_hpp */

@@ -11,22 +11,34 @@
 
 
 julia::julia(){
-	renderMode = RNDR_PIXARRAY;
+	mode = RNDR_PIXARRAY;
     topleft = complex(-2.0,2.0);
     bottomright = complex(2.0,-2.0);
     C = complex(.5, .5);
     maxiter = 60; width = 70; height = 50;
     grid = new Uint16[height * width];
 
+	chars = "@.$,&-# +*";	
+	charSize = 10;
+
+	name = "Julia";
+	type = JULIA_T;
+	mode = RNDR_PIXARRAY;
 }
 
 julia::julia(cmplx tl, cmplx br, Uint16 height, Uint16 width, Uint16 max){
-	renderMode = RNDR_PIXARRAY;
+	mode = RNDR_PIXARRAY;
     topleft = tl; bottomright = br;
     this->width = width; this->height = height;
     C = complex(.5, .5);
     maxiter = max;
     grid = new Uint16[height * width];
+	
+	chars = "@.$,&-# +*";	
+	charSize = 10;
+	name = "Julia";
+	type = JULIA_T;
+	mode = RNDR_PIXARRAY;
 }
 
 julia::~julia(){

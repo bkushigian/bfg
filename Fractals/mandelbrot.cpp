@@ -14,6 +14,11 @@ mandelbrot::mandelbrot(){
     bottomright = complex(2.0,-2.0);
     maxiter = 60; width = 70; height = 50;
     grid = new Uint16[height * width];
+	chars = "@.$,&-# +*";	
+	charSize = 10;
+	name = "Mandelbrot";
+	type = MANDEL_T;
+	mode = RNDR_PIXARRAY;
 }
 
 mandelbrot::mandelbrot(cmplx tl, cmplx br, Uint16 height, Uint16 width, Uint16 max){
@@ -21,6 +26,12 @@ mandelbrot::mandelbrot(cmplx tl, cmplx br, Uint16 height, Uint16 width, Uint16 m
     this->width = width; this->height = height;
     maxiter = max;
     grid = new Uint16[width * height];
+
+	chars = "@.$,&-# +*";	
+	charSize = 10;
+	name = "Mandelbrot";
+	type = MANDEL_T;
+	mode = RNDR_PIXARRAY;
 }
 
 mandelbrot::~mandelbrot(){

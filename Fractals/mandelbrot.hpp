@@ -24,18 +24,24 @@ public:
     mandelbrot();
     mandelbrot(complex tl, complex br, Uint16 height, Uint16 width, Uint16 max);
     ~mandelbrot();
-    Uint16 iterations(complex z);
+	/* Inherited Functions */
+
     void populateGrid();
+    Uint16* getGrid();
+	std::string getName() { return name; }
+	FRACTAL_TYPE getType() { return type; }
+	RNDR_MODE getMode() { return mode; }
+	void setName(std::string n) { name = n; }
+    Uint16 iterations(complex z);
     void resizeGrid(Uint16 h, Uint16 w);
     Uint16 getGridAt(Uint16 y, Uint16 x);
-    Uint16* getGrid();
     Uint16 getHeight() { return height; }
     Uint16 getWidth() { return width; }
     std::string toString();
     std::string toString(Uint16 chrs);
 private:
-    int charSize = 10;
-    char chars[10] = { '@', '.', '$', ',', '&', '-', '#', ' ', '+', '*'};
+	std::string chars; 
+	int charSize;
     complex topleft;
     complex bottomright;
     Uint16 maxiter;
