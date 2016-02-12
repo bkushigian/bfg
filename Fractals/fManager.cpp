@@ -5,6 +5,7 @@ fManager::fManager(){
 	size = 0;
 	fractals = new fractal*[capacity];
 	current = NULL;
+	WM = NULL;
 	currentIndex = 0;
 }
 

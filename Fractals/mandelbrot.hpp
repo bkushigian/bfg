@@ -12,12 +12,11 @@
 #include <stdio.h>
 #include <string>
 #include <sstream>
+#include "../Globals/globals.hpp"
 #include "../math/complex.hpp"
 #include "fractal.hpp"
 
-using namespace sf;
-
-typedef complex cmplx;
+class winManager;
 
 class mandelbrot: public fractal {
 public:
@@ -27,16 +26,16 @@ public:
 	/* Inherited Functions */
 
     void populateGrid();
-    Uint16* getGrid();
+	sf::Uint16* getGrid();
 	std::string getName() { return name; }
 	FRACTAL_TYPE getType() { return type; }
-	RNDR_MODE getMode() { return mode; }
+	DSP_MODE getDisplayMode() { return displayMode; }
 	void setName(std::string n) { name = n; }
-    Uint16 iterations(complex z);
+	sf::Uint16 iterations(complex z);
     void resizeGrid(Uint16 h, Uint16 w);
-    Uint16 getGridAt(Uint16 y, Uint16 x);
-    Uint16 getHeight() { return height; }
-    Uint16 getWidth() { return width; }
+	Uint16 getGridAt(Uint16 y, Uint16 x);
+	Uint16 getHeight() { return height; }
+	Uint16 getWidth() { return width; }
     std::string toString();
     std::string toString(Uint16 chrs);
 private:
@@ -44,7 +43,7 @@ private:
 	int charSize;
     complex topleft;
     complex bottomright;
-    Uint16 maxiter;
+	Uint16 maxiter;
     Uint16* grid;
     Uint16 width;
     Uint16 height;

@@ -14,7 +14,7 @@
 #include <sstream>
 #include "../math/complex.hpp"
 #include "fractal.hpp"
-
+#include "../Globals/globals.hpp"
 using namespace sf;
 
 typedef complex cmplx;
@@ -30,7 +30,6 @@ public:
     Uint16* getGrid();
 	std::string getName() { return name; }
 	FRACTAL_TYPE getType() { return type; }
-	RNDR_MODE getMode() { return mode; }
 	void setName(std::string n) { name = n; }
 
 	/*  */
@@ -53,8 +52,6 @@ private:
     Uint16 width;
     Uint16 height;
 		
-	FRACTAL_TYPE type;
-	RNDR_MODE mode;
 	std::string name;
 };
 #endif /* julia_hpp */

@@ -13,34 +13,34 @@ mandelbrot::mandelbrot(){
     topleft = complex(-2.0,2.0);
     bottomright = complex(2.0,-2.0);
     maxiter = 60; width = 70; height = 50;
-    grid = new Uint16[height * width];
+    grid = new sf::Uint16[height * width];
 	chars = "@.$,&-# +*";	
 	charSize = 10;
 	name = "Mandelbrot";
-	type = MANDEL_T;
-	mode = RNDR_PIXARRAY;
+	type = FT_MANDEL;
+	displayMode = DSP_PIXARRAY;
 }
 
-mandelbrot::mandelbrot(cmplx tl, cmplx br, Uint16 height, Uint16 width, Uint16 max){
+mandelbrot::mandelbrot(cmplx tl, cmplx br, sf::Uint16 height, sf::Uint16 width, sf::Uint16 max){
     topleft = tl; bottomright = br;
     this->width = width; this->height = height;
     maxiter = max;
-    grid = new Uint16[width * height];
+    grid = new sf::Uint16[width * height];
 
 	chars = "@.$,&-# +*";	
 	charSize = 10;
 	name = "Mandelbrot";
-	type = MANDEL_T;
-	mode = RNDR_PIXARRAY;
+	type = FT_MANDEL;
+	displayMode = DSP_PIXARRAY;
 }
 
 mandelbrot::~mandelbrot(){
     delete[] grid;
 }
 
-Uint16 mandelbrot::iterations(complex z) {
+sf::Uint16 mandelbrot::iterations(complex z) {
     complex C = z;
-    Uint16 iterations = 0;
+    sf::Uint16 iterations = 0;
     while (++iterations < maxiter && z.squaremodulus() < 4){
         z = z*z + C;
     }
@@ -50,35 +50,35 @@ Uint16 mandelbrot::iterations(complex z) {
 void mandelbrot::populateGrid(){
     double deltaX = (bottomright - topleft).getRe()/width;
     double deltaY = (topleft - bottomright).getIm()/height;
-    for (Uint32 i = 0; i < width * height; ++i){
+    for (sf::Uint32 i = 0; i < width * height; ++i){
 		grid[i] = iterations(topleft - deltaY*(i/height)*unitIm + deltaX*(i%width)*unitRe);
     }
 }
 /*
-void mandelbrot::resizeGrid(Uint16 h, Uint16 w){
-    Uint16** newGrid = new Uint16*[h];
+void mandelbrot::resizeGrid(sf::Uint16 h, sf::Uint16 w){
+    sf::Uint16** newGrid = new sf::Uint16*[h];
     for (int i = 0; i < h; ++i)
-        newGrid[i] = new Uint16[w];
+        newGrid[i] = new sf::Uint16[w];
     height = h; width = w;
 }
 */
-Uint16 mandelbrot::getGridAt(Uint16 x, Uint16 y){
+sf::Uint16 mandelbrot::getGridAt(sf::Uint16 x, sf::Uint16 y){
     if (y < height && x < width)
         return grid[x + width*y];
     return 0;
 }
-Uint16* mandelbrot::getGrid(){
+sf::Uint16* mandelbrot::getGrid(){
     return grid;
 }
 
 std::string mandelbrot::toString(){
     return toString(2);
 }
-std::string mandelbrot::toString(Uint16 chrs){
+std::string mandelbrot::toString(sf::Uint16 chrs){
     if (chrs > 10) chrs = 10;
     std::ostringstream ss;
-    for (Uint16 j = 0; j < height; ++j){
-        for (Uint16 i = 0; i < width; ++i){
+    for (sf::Uint16 j = 0; j < height; ++j){
+        for (sf::Uint16 i = 0; i < width; ++i){
             ss << chars[grid[i + j * width] % chrs];
         }
         ss << '\n';

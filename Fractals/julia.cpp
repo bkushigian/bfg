@@ -11,7 +11,7 @@
 
 
 julia::julia(){
-	mode = RNDR_PIXARRAY;
+	displayMode = DSP_PIXARRAY;
     topleft = complex(-2.0,2.0);
     bottomright = complex(2.0,-2.0);
     C = complex(.5, .5);
@@ -22,12 +22,11 @@ julia::julia(){
 	charSize = 10;
 
 	name = "Julia";
-	type = JULIA_T;
-	mode = RNDR_PIXARRAY;
+	type = FT_JULIA;
 }
 
 julia::julia(cmplx tl, cmplx br, Uint16 height, Uint16 width, Uint16 max){
-	mode = RNDR_PIXARRAY;
+	displayMode = DSP_PIXARRAY;
     topleft = tl; bottomright = br;
     this->width = width; this->height = height;
     C = complex(.5, .5);
@@ -37,8 +36,7 @@ julia::julia(cmplx tl, cmplx br, Uint16 height, Uint16 width, Uint16 max){
 	chars = "@.$,&-# +*";	
 	charSize = 10;
 	name = "Julia";
-	type = JULIA_T;
-	mode = RNDR_PIXARRAY;
+	type = FT_JULIA;
 }
 
 julia::~julia(){

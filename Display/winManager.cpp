@@ -1,5 +1,12 @@
 #include "winManager.hpp"
 
+winManager::winManager(){
+	displayMode = DSP_TEXT;		// Start with text screen
+	WIDTH = 1000; HEIGHT = 1000; MAX_ITERS = 255;
+	pixArray = new Uint8[HEIGHT * WIDTH * 4];
+
+}
+
 void winManager::mainLoop(){
 
 	std::cout << "Creating Window\n";
@@ -10,22 +17,18 @@ void winManager::mainLoop(){
     winMain.clear(Color::Black);
     winMain.display();
 
-	/* Populate Grid, Set up arr */
+	/* Populate Grid, Set up  pixArray*/
 	std::cout << "Populating mandelbrot grid\n";
 	FM.get(0)->populateGrid();
-	FM.get(1)->populateGrid();
     // Setup Arr
-	std::cout << "Declaring arr\n";
-    Uint8 arr[WIDTH * HEIGHT * 4]; // Stores Pixels
-	std::cout << "Updating arr\n";
-	setPixArray(arr, FM.getCurrent()->getGrid(),  WIDTH, HEIGHT);
+	setPixArray(pixArray, FM.getCurrent()->getGrid(),  WIDTH, HEIGHT);
 	
 	/* image/texture for display */
     Image image;
     Texture texture;
 
-	image.create(WIDTH, HEIGHT, arr);
-	if (!texture.create(WIDTH,HEIGHT)) return -1;
+	image.create(WIDTH, HEIGHT, pixArray);
+	if (!texture.create(WIDTH,HEIGHT)) return;
 	texture.update(image);
 	Sprite sprite(texture);
 	std::cout << "Entering Loop\n";
@@ -39,8 +42,8 @@ void winManager::mainLoop(){
             if (eventNum == 1) winMain.close();
 			else if (eventNum == 2){
 				FM.next();
-				setPixArray(arr, FM.getCurrent()->getGrid(), WIDTH, HEIGHT);
-				image.create(WIDTH, HEIGHT, arr);
+				setPixArray(pixArray, FM.getCurrent()->getGrid(), WIDTH, HEIGHT);
+				image.create(WIDTH, HEIGHT, pixArray);
 				texture.update(image);
 				sprite.setTexture(texture);
 			}
@@ -51,6 +54,12 @@ void winManager::mainLoop(){
 
         winMain.display();
     }
+}
+
+
+
+void winManager::addFractal(fractal* f){
+	FM.add(f);
 }
 
 int winManager::handleEvent(Event event){

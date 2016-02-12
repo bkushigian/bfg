@@ -1,6 +1,7 @@
 #ifndef SIERPINSKI_HPP
 #define SIERPINSKI_HPP
 
+#include "../Globals/globals.hpp"
 class STriangle {
 
 };

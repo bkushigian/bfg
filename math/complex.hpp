@@ -17,7 +17,6 @@
 #define PI 3.141592653589793
 
 
-
 class complex{
 public:
     /* Constructors */
@@ -68,4 +67,7 @@ complex operator+(double x, complex z);
 
 static const complex unitRe(1,0);
 static const complex unitIm(0,1);
+
+typedef complex cmplx;
+
 #endif /* complex_hpp */
