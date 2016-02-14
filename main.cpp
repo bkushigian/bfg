@@ -24,23 +24,8 @@ using namespace std;
 using namespace sf;
 int main(){
 	winManager WM;
-	WM.addFractal(
-			new mandelbrot(
-				complex(-2.0, 2.0),
-				complex(2.0, -2.0),
-				1000, 
-				1000,
-				255)
-			);
-	WM.addFractal(
-			new julia(
-				complex(-2.0, 2.0),
-				complex(2.0, -2.0),
-				1000, 
-				1000,
-				255)
-			);
-
+	WM.addFractal(new mandelbrot( complex(-2.0,2.0), complex(2.0, -2.0),
+				1000, 1000, 255));
     WM.mainLoop();
     return 0;
 }

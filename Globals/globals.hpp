@@ -21,17 +21,20 @@ enum FRACTAL_TYPE {
 	FT_NEWTON			= 3, 
 	FT_SIERP			= 4 
 };
+
 // Render Mode - replace with DSP_MODE
 // enum RNDR_MODE {RNDR_NONE, RNDR_TRIANGLES, RNDR_PIXARRAY};
 
 // Dispaly Mode - how is this to be displayed
 enum DSP_MODE {
-	DSP_NONE 			= 0,
-	DSP_PIXARRAY 		= 1,
-	DSP_TRIANGLES 		= 2,
-	DSP_IFS				= 4,
-	DSP_MRCM			= 8,
-	DSP_TEXT			= 16
+	DSP_NONE 			= 0,	///< No Display Mode (Error)
+	DSP_PIXARRAY 		= 1,	///< Pixel Array
+	DSP_TRIANGLES 		= 2,	///< Vertex Array (Triangles)
+	DSP_LINES			= 4,	///< Vertex Array (Lines)
+	DSP_IFS				= 8,	///< Iteration Function System
+	DSP_MRCM			= 16,	///< Multiple Reduction Copy Machine
+	DSP_TEXT			= 32,	///< Full Screen Text
+	DSP_CMND			= 128	///< Keep this last
 };
 
 // Event Handling Mode - how do we handle keyboard/mouse etc?
@@ -40,5 +43,17 @@ enum EVENT_HANDLE_MODE {
 	HNDL_NORMAL 		= 1, 
 	HNDL_CMND			= 2
 };
-#endif
 
+inline DSP_MODE operator|(DSP_MODE l, DSP_MODE r){
+	return static_cast<DSP_MODE>(static_cast<int>(l)|static_cast<int>(r));
+}
+
+inline DSP_MODE operator&(DSP_MODE l, DSP_MODE r){
+	return static_cast<DSP_MODE>(static_cast<int>(l)&static_cast<int>(r));
+}
+
+inline DSP_MODE operator^(DSP_MODE l, DSP_MODE r){
+	return static_cast<DSP_MODE>(static_cast<int>(l)^static_cast<int>(r));
+}
+
+#endif

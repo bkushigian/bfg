@@ -18,9 +18,10 @@
 #include "../Fractals/mandelbrot.hpp"
 #include "../Fractals/julia.hpp"
 #include "../Fractals/fractal.hpp"
-#include "../Fractals/fManager.hpp"
-using namespace sf;
 
+
+class fManager;
+#include "../Fractals/fManager.hpp"
 // winManager - handles windows, runs main loop
 class winManager{
 private:
@@ -31,16 +32,23 @@ private:
 	DSP_MODE displayMode;
 	Uint8 *pixArray;
 
+	sf::Image image;
+	sf::Texture texture;
+	sf::Sprite sprite;
+	sf::RenderWindow winMain;
 // Private Functions
-	void setPixArray(Uint8* pix, int width, int height);
-	void setPixArray(Uint8* pix, Uint16* grid, int width, int height);
-	int handleEvent(Event event);
+	int handleEvent(sf::Event event);
+	int handleNormalEvent(sf::Event event);
+	int handleCmndEvent(sf::Event event);
 	
 public:
 	winManager();
 	void mainLoop();
 	void addFractal(fractal* f);
 	void setDisplayMode(DSP_MODE dm){ displayMode = dm; }
+	void setPixArray(Uint16* pix, int width, int height);
+	void setPixArray(Uint8* pix, Uint16* grid, int width, int height);
+	void toggleCmnd() {displayMode = displayMode ^ DSP_CMND;}
 };
 
 #endif

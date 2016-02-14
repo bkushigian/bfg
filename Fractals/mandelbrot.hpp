@@ -15,9 +15,9 @@
 #include "../Globals/globals.hpp"
 #include "../math/complex.hpp"
 #include "fractal.hpp"
+#include "../Display/winManager.hpp"
 
 class winManager;
-
 class mandelbrot: public fractal {
 public:
     mandelbrot();
@@ -36,8 +36,11 @@ public:
 	Uint16 getGridAt(Uint16 y, Uint16 x);
 	Uint16 getHeight() { return height; }
 	Uint16 getWidth() { return width; }
+	void draw();
     std::string toString();
     std::string toString(Uint16 chrs);
+
+
 private:
 	std::string chars; 
 	int charSize;
@@ -47,6 +50,7 @@ private:
     Uint16* grid;
     Uint16 width;
     Uint16 height;
+	DSP_MODE displayMode;
 };
 
 #endif /* mandelbrot_hpp */

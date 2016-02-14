@@ -1,0 +1,47 @@
+Defines the command line language
+=========================== LANGUAGE SPECIFICATIONS =============================
+
+Basic Syntax:
+CMND [VERB] [ADJ] [NOUN] [OPTIONS...]
+
+	Each part of the command is seperated by a space. To continue a multi-line
+	command end first line with '\' and no trailing white-space.
+VERBs:
+	create 		[OBJ] [OPT...]			create new object
+	remove 		[OBJ]					remove object from memory
+	tell 		[OBJ/CMND]				Give information on object OBJ
+	list 		[OPT...]				List current objects
+	populate 	[OBJ]					Populate the object
+	view 		[OBJ]					Bring object into view
+	dump 		[OBJ] [OPT...]			Dump info on object to designated location
+	load 		[FILE]					Load a file into memory
+	save 		[OBJ] [FILE]			Save object to location
+
+OPTIONS will be specified as a list at the end of the command. There are two
+types of options: PARAMETERS and FLAGS. PARAMETERS are set as VARNAME=VALUE while
+FLAGS are set by just calling FLAGNAME. Further, FLAGS may be set with
+'TOGGLEMODE FLAGNAME', where TOGGLEMODE = {set/unset/toggle}. 
+
+=================================================================================	
+=============================== OBJECT HIERARCHY ================================
+=================================================================================	
+
+    ========================= DISPLAYABLE objects ===========================
+
+
+
+								FULLSCREEN
+			     ___________________|______________________
+			     |                                        |
+	         GRAPHICAL                                   TEXT
+     ___________ |_____________               ___________ |___________
+	 |                        |               |                      |
+  FRACTAL                 ANIMATION     PROGRAM_MANAGER          INFO_PANE
+
+
+
+
+
+    ============================ PANELS objects =============================
+
+

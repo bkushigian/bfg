@@ -15,6 +15,7 @@ protected:
 	std::string name;
 	FRACTAL_TYPE type;
 	winManager* WM;
+	bool populated;
 
 public:
 	virtual void populateGrid(){} 
@@ -28,6 +29,11 @@ public:
 	virtual std::string info(){ return name;}
 	virtual void setWM(winManager* wm) { WM = wm; } // Set window manager
 	virtual void draw(){};
+	virtual int handleEvent(char event) {return 0;}
+	virtual int rightClick(int x, int y){return 0;}
+	virtual int leftClick (int x, int y){return 0;}
+
+	virtual bool isPopulated(){ return populated; }
 
 };
 

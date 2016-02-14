@@ -12,13 +12,14 @@
 #include <stdio.h>
 #include <string>
 #include <sstream>
+#include "../Globals/globals.hpp"
 #include "../math/complex.hpp"
 #include "fractal.hpp"
-#include "../Globals/globals.hpp"
+#include "../Display/winManager.hpp"
 using namespace sf;
 
 typedef complex cmplx;
-
+class winManager;
 class julia : public fractal {
 public:
     julia();
@@ -31,16 +32,18 @@ public:
 	std::string getName() { return name; }
 	FRACTAL_TYPE getType() { return type; }
 	void setName(std::string n) { name = n; }
-
-	/*  */
 	Uint16 iterations(complex z);
     Uint16 getGridAt(Uint16 y, Uint16 x);
     Uint16 getHeight() { return height; }
     Uint16 getWidth() { return width; }
     void setC(complex C) { this->C = C;}
     complex getC() { return C; }
+
+	void draw();
+
     std::string toString();
     std::string toString(Uint16 chrs);
+
 private:
     int charSize;
 	std::string chars;

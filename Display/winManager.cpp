@@ -4,52 +4,47 @@ winManager::winManager(){
 	displayMode = DSP_TEXT;		// Start with text screen
 	WIDTH = 1000; HEIGHT = 1000; MAX_ITERS = 255;
 	pixArray = new Uint8[HEIGHT * WIDTH * 4];
-
+	winMain.create(VideoMode(WIDTH, HEIGHT), "Fractals");
+	FM.setWM(this);
 }
 
 void winManager::mainLoop(){
-
-	std::cout << "Creating Window\n";
-	/* Create Window */
-    RenderWindow winMain(VideoMode(WIDTH, HEIGHT), "Fractals");
-
 	/* Clear/Display black */
     winMain.clear(Color::Black);
     winMain.display();
 
-	/* Populate Grid, Set up  pixArray*/
-	std::cout << "Populating mandelbrot grid\n";
-	FM.get(0)->populateGrid();
     // Setup Arr
-	setPixArray(pixArray, FM.getCurrent()->getGrid(),  WIDTH, HEIGHT);
+	setPixArray( FM.getCurrent()->getGrid(),  WIDTH, HEIGHT);
 	
 	/* image/texture for display */
-    Image image;
-    Texture texture;
 
 	image.create(WIDTH, HEIGHT, pixArray);
 	if (!texture.create(WIDTH,HEIGHT)) return;
 	texture.update(image);
-	Sprite sprite(texture);
+	sprite.setTexture(texture);
 	std::cout << "Entering Loop\n";
     while (winMain.isOpen())
     {
         Event event;
 		int eventNum = 0;
-        while(winMain.pollEvent(event))
-        {
+        while(winMain.pollEvent(event)) {
 			eventNum = handleEvent(event);	
-            if (eventNum == 1) winMain.close();
-			else if (eventNum == 2){
-				FM.next();
-				setPixArray(pixArray, FM.getCurrent()->getGrid(), WIDTH, HEIGHT);
+			if (eventNum == 2){
+				std::cout << "Creating Image\n";
+				
 				image.create(WIDTH, HEIGHT, pixArray);
+				std::cout << "Updating Texture";
 				texture.update(image);
+				
+				std::cout << "Setting Sprite Texture\n";
 				sprite.setTexture(texture);
 			}
-			
+			else if (eventNum == 3){
+				winMain.clear(sf::Color::Black);
+				winMain.display();
+			}
         }
-        winMain.clear(Color::Black);
+        winMain.clear(sf::Color::Black);
         winMain.draw(sprite);
 
         winMain.display();
@@ -62,7 +57,21 @@ void winManager::addFractal(fractal* f){
 	FM.add(f);
 }
 
-int winManager::handleEvent(Event event){
+int winManager::handleEvent(sf::Event event){
+	if (displayMode & DSP_CMND) {
+		return handleCmndEvent(event);
+	}
+	else{
+		return handleNormalEvent(event);
+	}
+}
+
+int winManager::handleCmndEvent(sf::Event event){
+	toggleCmnd();
+	return 0;
+}
+
+int winManager::handleNormalEvent(sf::Event event){
     switch (event.type)
     {
         /* Closed */
@@ -70,8 +79,31 @@ int winManager::handleEvent(Event event){
             return 1;
         /* Key Pressed */
         case Event::KeyPressed:
-            //cout << "Key Pressed\n";
-            return 2;
+			if (event.key.code == sf::Keyboard::Escape) toggleCmnd();
+			// Command Line
+			if (event.key.code == sf::Keyboard::C) toggleCmnd();
+			// Quit
+			if (event.key.code == sf::Keyboard::Q) winMain.close();
+			// Next Fractal
+			if (event.key.code == sf::Keyboard::N     ) {
+				FM.next();
+				FM.draw();
+				
+				return 2;
+			}
+			// Color Black
+			if (event.key.code == sf::Keyboard::B     ) {
+				return 3;
+			}
+			// Dump Info
+			if(event.key.code == sf::Keyboard::I	  ){
+				std::cout << "===================== Info ======================\n";
+				std::cout << "\tWIDTH.............. " << WIDTH << std::endl;
+				std::cout << "\tHEIGHT............. " << HEIGHT << std::endl;
+				std::cout << "\tCURRENT............ " << FM.getCurrent()->getName();
+				std::cout << std::endl;
+			}
+			return 0;
         /* Resize */
         case Event::Resized:
             //glViewport(0, 0, event.size.width, event.size.height);
@@ -117,6 +149,8 @@ int winManager::handleEvent(Event event){
 
 
 void winManager::setPixArray(Uint8* pix, Uint16* grid, int width, int height){
+
+	std::cout << "SetPixArray()\n";
     for (int i = 0; i < height*width; ++i){
 		pix[4*i] = (15 * grid[i]) % 256;
 		pix[4*i+1] = (11 * grid[i]) % 256;
@@ -125,11 +159,13 @@ void winManager::setPixArray(Uint8* pix, Uint16* grid, int width, int height){
     }
 }
 
-void winManager::setPixArray(Uint8* pix, int width, int height){
-	Uint16* grid = FM.getCurrent()->getGrid(); for (int i = 0; i < height*width; ++i){
-		pix[4*i] = (15 * grid[i]) % 256;
-		pix[4*i+1] = (11 * grid[i]) % 256;
-		pix[4*i+2] = (18 * grid[i]) % 256;
-		pix[4*i + 3] = 255;
+void winManager::setPixArray(Uint16* grid, int width, int height){
+	std::cout << "SetPixArray()\n";
+	for (int i = 0; i < height*width; ++i){
+		pixArray[4*i] = (15 * grid[i]) % 256;
+		pixArray[4*i+1] = (11 * grid[i]) % 256;
+		pixArray[4*i+2] = (18 * grid[i]) % 256;
+		pixArray[4*i + 3] = 255;
 	}
 }
+

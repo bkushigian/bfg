@@ -21,8 +21,11 @@ fractal* fManager::get(int n){
 
 fractal* fManager::next() {
 	if (size == 0) return NULL;
+	std::cout << "FM::next()\n";
 	currentIndex = (currentIndex + 1) % size;
 	current = fractals[currentIndex];
+	if (current == NULL) std::cout << "FM::current == NULL\n";
+	else std::cout << "FM::Current != NULL\n";
 	return current;
 }
 
@@ -34,6 +37,9 @@ fractal* fManager::prev() {
 }
 
 fractal* fManager::add(fractal* f){
+	// Initialize f
+	f->setWM(WM);
+	f->populateGrid();
 	// If we are out of room...
 	if (size == capacity ) {
 		fractal** fs = new fractal*[capacity * 2];
@@ -55,4 +61,12 @@ fractal* fManager::add(fractal* f){
 	fractals[size++] = f;
 	if (current == NULL) current = fractals[size - 1];
 	return f;
+}
+
+void fManager::draw(){
+	std::cout << "FM.draw()\n";
+	std::cout << (unsigned long int) current << std::endl;
+	if (current != NULL)
+		current->draw();
+	
 }

@@ -19,6 +19,7 @@ mandelbrot::mandelbrot(){
 	name = "Mandelbrot";
 	type = FT_MANDEL;
 	displayMode = DSP_PIXARRAY;
+	populated = false;
 }
 
 mandelbrot::mandelbrot(cmplx tl, cmplx br, sf::Uint16 height, sf::Uint16 width, sf::Uint16 max){
@@ -32,6 +33,7 @@ mandelbrot::mandelbrot(cmplx tl, cmplx br, sf::Uint16 height, sf::Uint16 width, 
 	name = "Mandelbrot";
 	type = FT_MANDEL;
 	displayMode = DSP_PIXARRAY;
+	populated = false;
 }
 
 mandelbrot::~mandelbrot(){
@@ -48,11 +50,21 @@ sf::Uint16 mandelbrot::iterations(complex z) {
 }
 
 void mandelbrot::populateGrid(){
+	populated = true;
     double deltaX = (bottomright - topleft).getRe()/width;
     double deltaY = (topleft - bottomright).getIm()/height;
     for (sf::Uint32 i = 0; i < width * height; ++i){
 		grid[i] = iterations(topleft - deltaY*(i/height)*unitIm + deltaX*(i%width)*unitRe);
     }
+}
+
+void mandelbrot::draw(){
+	if (WM == NULL) return;
+	std::cout << "Drawing Mandelbrot\n";
+	std::cout << "setDisplay\n";
+	WM->setDisplayMode(displayMode);
+	std::cout << "setPixArray\n";
+	WM->setPixArray( grid, width, height);
 }
 /*
 void mandelbrot::resizeGrid(sf::Uint16 h, sf::Uint16 w){

@@ -2,9 +2,8 @@
 #define FRACTAL_MANAGER_HPP
 
 #include <string>
+#include <iostream>
 #include "fractal.hpp"
-#include "mandelbrot.hpp"
-#include "julia.hpp"
 #include "../Globals/globals.hpp"
 
 
@@ -25,6 +24,9 @@ public:
 	fractal* remove(){ return NULL; }
 	fractal* remove(int n){ return NULL; }
 	void setWM(winManager* wm) { WM = wm; }
+
+	void draw();		// Current fractal draws
+
 private:
 	int capacity;
 	int size;

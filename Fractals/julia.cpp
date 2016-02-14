@@ -8,8 +8,6 @@
 
 #include "julia.hpp"
 
-
-
 julia::julia(){
 	displayMode = DSP_PIXARRAY;
     topleft = complex(-2.0,2.0);
@@ -23,6 +21,7 @@ julia::julia(){
 
 	name = "Julia";
 	type = FT_JULIA;
+	populated = false;
 }
 
 julia::julia(cmplx tl, cmplx br, Uint16 height, Uint16 width, Uint16 max){
@@ -37,6 +36,7 @@ julia::julia(cmplx tl, cmplx br, Uint16 height, Uint16 width, Uint16 max){
 	charSize = 10;
 	name = "Julia";
 	type = FT_JULIA;
+	populated = false;
 }
 
 julia::~julia(){
@@ -52,11 +52,21 @@ Uint16 julia::iterations(complex z) {
 }
 
 void julia::populateGrid(){
+	populated = true;
     double deltaX = (bottomright - topleft).getRe()/width;
     double deltaY = (topleft - bottomright).getIm()/height;
     for (Uint32 i = 0; i < height*width; ++i){
 		grid[i] = iterations(topleft - deltaY*(i/width)*unitIm + deltaX*(i % width)*unitRe);
     }
+}
+
+void julia::draw(){
+	std::cout << "julia::draw()\n";
+
+	if (WM == NULL) return;
+	std::cout << "julia::stillDrawing\n";
+	WM->setDisplayMode(displayMode);
+	WM->setPixArray( grid, width, height);
 }
 
 /*void julia::resizeGrid(Uint16 h, Uint16 w){
