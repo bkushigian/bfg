@@ -6,6 +6,20 @@ winManager::winManager(){
 	pixArray = new Uint8[HEIGHT * WIDTH * 4];
 	winMain.create(VideoMode(WIDTH, HEIGHT), "Fractals");
 	FM.setWM(this);
+	commandMode = false;
+	if (!font.loadFromFile("Fonts/FreeMono.otf"))
+		throw std::runtime_error("Unable to load font FreeMono.otf");
+	commandText.setFont(font);
+	fontSize = 15;
+	lineSpace = 3;
+	commandText.setCharacterSize(fontSize);
+	//commandText.setStyle(sf::Text::Bold);
+	commandText.setColor(sf::Color::White);
+}
+
+winManager::~winManager(){
+	if (pixArray != NULL) delete[] pixArray;
+	FM.reset();
 }
 
 void winManager::mainLoop(){
@@ -14,43 +28,56 @@ void winManager::mainLoop(){
     winMain.display();
 
     // Setup Arr
-	setPixArray( FM.getCurrent()->getGrid(),  WIDTH, HEIGHT);
-	
-	/* image/texture for display */
+	FM.getCurrent()->draw();
 
+	/* image/texture for display */
 	image.create(WIDTH, HEIGHT, pixArray);
-	if (!texture.create(WIDTH,HEIGHT)) return;
+
+	if (!texture.create(WIDTH,HEIGHT)) 
+		throw std::runtime_error("winManager: Failed to create Texture");
+
 	texture.update(image);
 	sprite.setTexture(texture);
-	std::cout << "Entering Loop\n";
+	int eventNum = 0;	// Handle returns from event call
+
     while (winMain.isOpen())
     {
+		eventNum = 0;
         Event event;
-		int eventNum = 0;
         while(winMain.pollEvent(event)) {
 			eventNum = handleEvent(event);	
-			if (eventNum == 2){
-				std::cout << "Creating Image\n";
-				
+			if (eventNum == 1){
+				FM.reset();	
+			}
+			if (eventNum == 2){ // Next Fractal
 				image.create(WIDTH, HEIGHT, pixArray);
-				std::cout << "Updating Texture";
 				texture.update(image);
-				
-				std::cout << "Setting Sprite Texture\n";
 				sprite.setTexture(texture);
 			}
-			else if (eventNum == 3){
+			else if (eventNum == 3){ // Clear Black
 				winMain.clear(sf::Color::Black);
 				winMain.display();
 			}
         }
+		// Refresh Screen
         winMain.clear(sf::Color::Black);
+		// Draw Sprite in case it was regenerated above
         winMain.draw(sprite);
-
-        winMain.display();
+		// Check for command Mode
+		if (commandMode){
+			unsigned int hSize = command.getHistorySize();
+			for (int i = hSize-1; i >= 0; --i){
+				commandText.setString(command.getHistory(i));
+				positionText(commandText, hSize - i);
+				winMain.draw(commandText);
+			}
+			commandText.setString(command.toString());
+			positionText(commandText);
+			winMain.draw(commandText);
+		}
+		winMain.display();
     }
 }
-
 
 
 void winManager::addFractal(fractal* f){
@@ -72,18 +99,69 @@ int winManager::handleCmndEvent(sf::Event event){
 }
 
 int winManager::handleNormalEvent(sf::Event event){
+	// @ToDo To be split into seperate function
+	// Command Mode
+	
+	if (commandMode){
+		if (event.type == Event::TextEntered){
+			if (event.text.unicode <= 128){
+				char c = static_cast<char>(event.text.unicode);
+				if (('!' <= c && c  <= '~') || c == ' '){	// Std char
+					command.insert(static_cast<char>(event.text.unicode));
+					return 0;
+				}
+			}
+		}
+		/*** Key Pressed ***/
+		if(event.type == Event::KeyPressed){
+			switch(event.key.code){
+				case sf::Keyboard::Escape:
+					commandMode = !commandMode;
+					break;
+				case sf::Keyboard::BackSpace:
+					command.remove();
+					break;
+				case sf::Keyboard::Return: 
+					command.execute();
+					break;
+				case sf::Keyboard::Up:
+					command.up();
+					break;
+				case sf::Keyboard::Down:
+					command.down();
+					break;
+				case sf::Keyboard::Left:
+					command.left();
+					break;
+				case sf::Keyboard::Right:
+					command.right();
+					break;
+			}
+		}
+		return 0;
+	}
+	
+	/*** Normal Mode ***/
     switch (event.type)
     {
+			
         /* Closed */
         case Event::Closed:
+			winMain.close();
+			FM.reset();
             return 1;
         /* Key Pressed */
         case Event::KeyPressed:
-			if (event.key.code == sf::Keyboard::Escape) toggleCmnd();
+			if (event.key.code == sf::Keyboard::Escape) {
+				commandMode = !commandMode;
+			}
 			// Command Line
-			if (event.key.code == sf::Keyboard::C) toggleCmnd();
 			// Quit
-			if (event.key.code == sf::Keyboard::Q) winMain.close();
+			if (event.key.code == sf::Keyboard::Q) {
+				winMain.close();
+				FM.reset();
+				return 1;
+			}
 			// Next Fractal
 			if (event.key.code == sf::Keyboard::N     ) {
 				FM.next();
@@ -96,7 +174,7 @@ int winManager::handleNormalEvent(sf::Event event){
 				return 3;
 			}
 			// Dump Info
-			if(event.key.code == sf::Keyboard::I	  ){
+			if(event.key.code == sf::Keyboard::I){
 				std::cout << "===================== Info ======================\n";
 				std::cout << "\tWIDTH.............. " << WIDTH << std::endl;
 				std::cout << "\tHEIGHT............. " << HEIGHT << std::endl;
@@ -150,7 +228,6 @@ int winManager::handleNormalEvent(sf::Event event){
 
 void winManager::setPixArray(Uint8* pix, Uint16* grid, int width, int height){
 
-	std::cout << "SetPixArray()\n";
     for (int i = 0; i < height*width; ++i){
 		pix[4*i] = (15 * grid[i]) % 256;
 		pix[4*i+1] = (11 * grid[i]) % 256;
@@ -160,7 +237,6 @@ void winManager::setPixArray(Uint8* pix, Uint16* grid, int width, int height){
 }
 
 void winManager::setPixArray(Uint16* grid, int width, int height){
-	std::cout << "SetPixArray()\n";
 	for (int i = 0; i < height*width; ++i){
 		pixArray[4*i] = (15 * grid[i]) % 256;
 		pixArray[4*i+1] = (11 * grid[i]) % 256;
@@ -169,3 +245,12 @@ void winManager::setPixArray(Uint16* grid, int width, int height){
 	}
 }
 
+
+// Command Line Stuff
+void winManager::positionText(sf::Text& t){
+	t.setPosition(2, HEIGHT - t.getCharacterSize() - lineSpace);
+}
+
+void winManager::positionText(sf::Text& t, int n){
+	t.setPosition(15, HEIGHT - (n + 1)*(t.getCharacterSize() + lineSpace));
+}

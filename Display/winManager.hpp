@@ -1,5 +1,5 @@
 /* Compile with
-	g++ -c winManager.cpp ../math/complex.cpp ../Fractals/mandelbrot.cpp ../Fractals/julia.cpp ../Fractals/fManager.cpp -lsfml-system -lsfml-graphics -lsfml-window
+	g++ -c winManager.cpp ../Fractals/mandelbrot.cpp ../Fractals/julia.cpp ../Fractals/fManager.cpp -lsfml-system -lsfml-graphics -lsfml-window
 */
 #ifndef WIN_MANAGER_HPP
 #define WIN_MANAGER_HPP
@@ -9,15 +9,16 @@
 #include <SFML/Window.hpp>
 #include <SFML/OpenGL.hpp>
 #include <SFML/Graphics/Image.hpp>
+#include <SFML/Graphics/Text.hpp>
 #include <iostream>
-
 #include "../Globals/globals.hpp"			// Global Variables
-
-#include "../math/complex.hpp"
-
+#include <complex>
 #include "../Fractals/mandelbrot.hpp"
 #include "../Fractals/julia.hpp"
 #include "../Fractals/fractal.hpp"
+#include "../Fractals/factory.hpp"
+#include "commandLine.hpp"
+
 
 
 class fManager;
@@ -31,18 +32,28 @@ private:
 	fManager FM;
 	DSP_MODE displayMode;
 	Uint8 *pixArray;
+	commandLine command;
+	bool commandMode;
 
+	sf::Text commandText;
 	sf::Image image;
 	sf::Texture texture;
 	sf::Sprite sprite;
 	sf::RenderWindow winMain;
+	sf::Font font;
+	int fontSize;	// commandline font size
+	int lineSpace;	// Pixels after line in cmndline
 // Private Functions
 	int handleEvent(sf::Event event);
 	int handleNormalEvent(sf::Event event);
 	int handleCmndEvent(sf::Event event);
+
+	void positionText(sf::Text& t, int n);
+	void positionText(sf::Text& t);
 	
 public:
 	winManager();
+	~winManager();
 	void mainLoop();
 	void addFractal(fractal* f);
 	void setDisplayMode(DSP_MODE dm){ displayMode = dm; }

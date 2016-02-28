@@ -8,10 +8,10 @@
 
 #include "mandelbrot.hpp"
 
-
+/*** mandelbrot class implementation ***/
 mandelbrot::mandelbrot(){
-    topleft = complex(-2.0,2.0);
-    bottomright = complex(2.0,-2.0);
+    topleft = cmplx(-2.0,2.0);
+    bottomright = cmplx(2.0,-2.0);
     maxiter = 60; width = 70; height = 50;
     grid = new sf::Uint16[height * width];
 	chars = "@.$,&-# +*";	
@@ -37,24 +37,25 @@ mandelbrot::mandelbrot(cmplx tl, cmplx br, sf::Uint16 height, sf::Uint16 width, 
 }
 
 mandelbrot::~mandelbrot(){
-    delete[] grid;
+	if (grid != NULL)
+		delete[] grid;
 }
 
-sf::Uint16 mandelbrot::iterations(complex z) {
-    complex C = z;
+sf::Uint16 mandelbrot::iterations(cmplx z) {
+    cmplx C = z;
     sf::Uint16 iterations = 0;
-    while (++iterations < maxiter && z.squaremodulus() < 4){
+    while (++iterations < maxiter && std::abs(z) < 2){
         z = z*z + C;
     }
     return iterations;
 }
 
-void mandelbrot::populateGrid(){
+void mandelbrot::init(){
 	populated = true;
-    double deltaX = (bottomright - topleft).getRe()/width;
-    double deltaY = (topleft - bottomright).getIm()/height;
+    double deltaX = (bottomright - topleft).real()/width;
+    double deltaY = (topleft - bottomright).imag()/height;
     for (sf::Uint32 i = 0; i < width * height; ++i){
-		grid[i] = iterations(topleft - deltaY*(i/height)*unitIm + deltaX*(i%width)*unitRe);
+		grid[i] = iterations( topleft + cmplx(deltaX*(i%width), -deltaY*(i/height)) );
     }
 }
 
@@ -96,4 +97,57 @@ std::string mandelbrot::toString(sf::Uint16 chrs){
         ss << '\n';
     }
     return ss.str();
+}
+
+/*** mandelbrotFactory ***/
+mandelbrotFactory::mandelbrotFactory(){
+		tl = cmplx(-2.0, 2.0); 
+		br = cmplx(2.0, 2.0); 
+		maxiter = 255; 
+		width = 1000; height = 1000;
+}
+
+object* mandelbrotFactory::create(){
+	return new mandelbrot(tl, br, height, width, maxiter);
+}
+
+int mandelbrotFactory::set(valuePair vp){
+	std::string s = vp.name;
+	VP_TYPE t = vp.type;
+	if (s.compare("topleft") == 0 || s.compare("tl") == 0){
+		if (t == CMPLX){
+			tl = vp.getComplex();
+			return 0;
+		} 
+	}
+
+	else if (s.compare("bottomright") == 0 || s.compare("br") == 0){
+		if (t == CMPLX){
+			br = vp.getComplex();
+			return 0;
+		}
+	}
+
+	else if (s.compare("max") == 0 
+			|| s.compare( "maxIter") == 0 
+			|| s.compare( "maxiter") == 0){
+		if (t == UI8 || t == UI16 || t == UI32 || t == UI64){
+			maxiter = vp.getUI32();
+			return 0;
+		}
+	}
+	else if (s.compare( "width") == 0 || s.compare("w") == 0){
+		if (t == UI8 || t == UI16 || t == UI32 || t == UI64){
+			width = vp.getUI32();
+			return 0;
+		}
+	}
+	else if (s.compare("height") == 0 || s.compare("h") == 0){
+		if (t == UI8 || t == UI16 || t == UI32 || t == UI64){
+			height = vp.getUI32();
+			return 0;
+		}
+	}
+	return 1;		// Error
+	
 }

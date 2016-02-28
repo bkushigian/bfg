@@ -3,6 +3,7 @@
 
 #include <string>
 #include <iostream>
+#include "object.hpp"
 #include "fractal.hpp"
 #include "../Globals/globals.hpp"
 
@@ -14,24 +15,25 @@ class fManager{
 public:
 	fManager();
 	~fManager();
-	fractal* getCurrent() {return current; }
+	object* getCurrent();
 	int getSize() { return size; }
 	int getCapacity() { return capacity; }
-	fractal* get(int n);
-	fractal* next();
-	fractal* prev();
-	fractal*  add(fractal* f);
-	fractal* remove(){ return NULL; }
-	fractal* remove(int n){ return NULL; }
+	object* get(int n);
+	object* next();
+	object* prev();
+	object*  add(object* f);
+	int remove();
+	int remove(int n);
+	void reset();		// Remove all fractals
 	void setWM(winManager* wm) { WM = wm; }
 
-	void draw();		// Current fractal draws
+	void draw();		// Current object draws
 
 private:
-	int capacity;
-	int size;
-	fractal** fractals; // Array of Fractal pointers
-	fractal* current; 	// Pointer to current fractal
+	int capacity;		// Total alloted capacity
+	int size;			// Current Size
+	object** objects; 	// Array of Fractal pointers
+	object* current; 	// Pointer to current object
 	int currentIndex;
 	winManager* WM;
 

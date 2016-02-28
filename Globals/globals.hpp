@@ -6,13 +6,24 @@
 #define FRACTAL_GLOBALS_HPP
 
 #include <SFML/Config.hpp>
-#include "../math/complex.hpp"
+#include <complex>
 // Typedefs
-typedef 	sf::Uint8 		Uint8;
-typedef 	sf::Uint16 		Uint16;
+typedef 	sf::Uint8 				Uint8;
+typedef 	sf::Uint16 				Uint16;
+typedef		sf::Uint32				Uint32;
+typedef		sf::Uint64				Uint64;
+typedef		std::complex<double> 	cmplx;
 
 // Enums
 
+
+// Object Type (for typecasting)
+enum OBJ_TYPE {
+	OBJ_NONE			= 0,		// ERROR
+	OBJ_OBJECT			= 1,
+	OBJ_DRAWABLE		= 2,
+	OBJ_POLYNOMIAL		= 3
+};
 // Fractal Type (Not currently used, but included in fractal.hpp
 enum FRACTAL_TYPE { 
 	FT_NONE				= 0, 

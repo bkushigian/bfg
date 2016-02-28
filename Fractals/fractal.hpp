@@ -5,11 +5,16 @@
 #include <sstream>
 #include <stdio.h>
 #include <SFML/Config.hpp>
-#include "../math/complex.hpp"
+#include <complex>
 #include "../Globals/globals.hpp"
+#include "object.hpp"
 
 class winManager;
-class fractal{
+
+
+
+class fractal : public object{
+
 protected:
 	DSP_MODE displayMode;
 	std::string name;
@@ -18,9 +23,13 @@ protected:
 	bool populated;
 
 public:
-	virtual void populateGrid(){} 
+	fractal() {
+		displayMode = DSP_NONE;
+		type = FT_NONE;
+		objectType = OBJ_DRAWABLE;
+	}
+	virtual void init(){} 
 	virtual sf::Uint16* getGrid() {return NULL;}
-	virtual int handel(char c) { return 0; }
 	virtual std::string getName() { return "Generic Fractal"; }
 	virtual FRACTAL_TYPE getType() { return FT_NONE; }
 	virtual DSP_MODE  getDisplayMode() { return DSP_NONE; }

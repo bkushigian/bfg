@@ -17,6 +17,31 @@ VERBs:
 	load 		[FILE]					Load a file into memory
 	save 		[OBJ] [FILE]			Save object to location
 
+VARIABLE DECLARATION: All variables will be declared with the `let` keyword. For
+example:
+	let x = 2
+declares the variable x as an integer and assigns to it the value 2. If a 
+variable has been declared then it can be modified
+	x = 4
+Finally, a variable can be declared without initialization:
+	let (int) x
+Here we explicitly denote that x is an integer. Basic types have default values.
+
+VARIABLE TYPES:
+	int:		32 bit signed integeral type
+	uint:		32 bit unsigned integral type
+	int64:		
+	uint64:		
+	int32:		
+	uint32:
+	int16:
+	uint16:
+	
+	string:		character string
+	char:		a single ASCII character
+
+	double:		
+
 OPTIONS will be specified as a list at the end of the command. There are two
 types of options: PARAMETERS and FLAGS. PARAMETERS are set as VARNAME=VALUE while
 FLAGS are set by just calling FLAGNAME. Further, FLAGS may be set with
@@ -26,9 +51,7 @@ FLAGS are set by just calling FLAGNAME. Further, FLAGS may be set with
 =============================== OBJECT HIERARCHY ================================
 =================================================================================	
 
-    ========================= DISPLAYABLE objects ===========================
-
-
+    =========================== DRAWABLE objects ============================
 
 								FULLSCREEN
 			     ___________________|______________________

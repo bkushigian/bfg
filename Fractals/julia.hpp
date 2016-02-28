@@ -13,31 +13,30 @@
 #include <string>
 #include <sstream>
 #include "../Globals/globals.hpp"
-#include "../math/complex.hpp"
+#include <complex>
 #include "fractal.hpp"
 #include "../Display/winManager.hpp"
 using namespace sf;
 
-typedef complex cmplx;
 class winManager;
 class julia : public fractal {
 public:
     julia();
-    julia(complex tl, complex br, Uint16 height, Uint16 width, Uint16 max);
+    julia(cmplx tl, cmplx br, Uint16 height, Uint16 width, Uint16 max);
     ~julia();
 	/* Inherited functions */
-    void populateGrid();
+    void init();
     void resizeGrid(Uint16 h, Uint16 w);
     Uint16* getGrid();
 	std::string getName() { return name; }
 	FRACTAL_TYPE getType() { return type; }
 	void setName(std::string n) { name = n; }
-	Uint16 iterations(complex z);
+	Uint16 iterations(cmplx z);
     Uint16 getGridAt(Uint16 y, Uint16 x);
     Uint16 getHeight() { return height; }
     Uint16 getWidth() { return width; }
-    void setC(complex C) { this->C = C;}
-    complex getC() { return C; }
+    void setC(cmplx C) { this->C = C;}
+    cmplx getC() { return C; }
 
 	void draw();
 
@@ -47,9 +46,9 @@ public:
 private:
     int charSize;
 	std::string chars;
-    complex topleft;
-    complex bottomright;
-    complex C;
+    cmplx topleft;
+    cmplx bottomright;
+    cmplx C;
     Uint16 maxiter;
     Uint16* grid;
     Uint16 width;
