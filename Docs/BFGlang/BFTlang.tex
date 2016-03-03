@@ -1,0 +1,46 @@
+\documentclass[11pt,oneside,final]{book}
+
+\usepackage{mathtools}
+\usepackage{accents}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{centernot}
+\usepackage{color}
+\usepackage{enumerate}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{listings}
+
+%PAGE FORMATTING
+% \addtolength{\voffset}{-.4in}
+% \addtolength{\hoffset}{0in}
+% \addtolength{\footskip}{5pt}
+% \addtolength{\textheight}{100pt}
+\addtolength{\textwidth}{-20pt}
+
+\newcommand{\ntrm}[1]{$<${#1}$>$}
+\newcommand{\trm}[1]{{\bf{#1}}}
+\newcommand{\cfRule}[1]{\ntrm{#1} $\rightarrow$ }
+\newcommand{\cfRuleAlign}[1]{\makebox[4cm][l]{\ntrm{#1}} $\rightarrow$ }
+\hypersetup{pdfborder={0 0 0}, urlcolor=blue, linkcolor=blue, colorlinks=true}
+
+\begin{document}
+\title{}
+\author{Ben Kushigian}
+\date{Date}
+\maketitle
+\tableofcontents
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% BEGIN %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Context-Free Grammar Definition}
+\begin{enumerate}
+	\itemsep-0.3em
+	\item \cfRuleAlign{program} \ntrm{statement list}
+	\item \cfRuleAlign{statement list} \ntrm{statement}\ntrm{statement list}
+	\item \cfRuleAlign{statement list} \ntrm{empty}
+	\item \cfRuleAlign{statement} \trm{let} \trm{ID} = \ntrm{expression}
+\end{enumerate}
+
+
+\end{document}

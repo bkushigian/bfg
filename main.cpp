@@ -1,6 +1,3 @@
-/* compile with
-g++-5 -std=c++14 -o bin/main.out main.cpp Fractals/julia.cpp Fractals/mandelbrot.cpp Display/winManager.cpp Fractals/fManager.cpp -lsfml-graphics -lsfml-window -lsfml-system
-*/
 
 #include <iostream>
 #include <math.h>
@@ -27,7 +24,7 @@ int main(){
 	WM.addFractal(new mandelbrot( 
 				-2.0 + 2.0i, 2.0 - 2.0i,
 				1000, 1000, 255));
-    WM.mainLoop();
-    return 0;
+	WM.mainLoop();
+	return 0;
 }
 

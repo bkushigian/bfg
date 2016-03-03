@@ -16,6 +16,7 @@ public:
 		objectType = OBJ_OBJECT;
 		name = "Generic Object";
 	}
+	virtual ~object(){};
 	virtual void draw() {}
 	virtual std::string getName() {return name; }
 	virtual int handleEvent(char event) { return 0; }

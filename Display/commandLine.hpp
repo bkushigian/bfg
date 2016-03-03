@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <math.h>
 class commandLine{
 private:
 	std::string buffer;			// Current command being entered;

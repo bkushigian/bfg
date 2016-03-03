@@ -15,5 +15,5 @@ interpreter::interpreter(fManager* fm, winManager* wm){
 
 
 int interpreter::parse(std::string c){
-	
+	return 0;
 }

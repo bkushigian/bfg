@@ -45,10 +45,11 @@ std::string commandLine::toString() {
 }
 
 std::string commandLine::getHistory(int n){
-	if (n >= 0 && n < historySize)
+	if (n >= 0 && static_cast<unsigned int>(n) < historySize)
 		return clHistory[n];
-	else if ( -n <= historySize)
+	else if ( static_cast<unsigned int>(-n) <= historySize)
 		return clHistory[size + n];
+	return "";
 }
 //movement
 unsigned int commandLine::left(){

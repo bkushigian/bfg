@@ -17,8 +17,8 @@ enum VP_TYPE { UI8, UI16, UI32, UI64, DBL, FLT, CMPLX, STRNG };
 class factory{
 private:
 public:
-	virtual object* create(){}
-	virtual int update(std::string key, void* val){}
+	virtual object* create(){ return new object;}
+	virtual int update(std::string key, void* val){return 0;}
 };
 
 

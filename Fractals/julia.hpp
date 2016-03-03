@@ -51,8 +51,8 @@ private:
     cmplx C;
     Uint16 maxiter;
     Uint16* grid;
-    Uint16 width;
-    Uint16 height;
+    Uint32 width;
+    Uint32 height;
 		
 	std::string name;
 };

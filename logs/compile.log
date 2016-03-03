@@ -1,0 +1,18 @@
+g++-5 -std=c++14 -Wall -g  -c  main.cpp
+g++-5 -std=c++14 -Wall -g  -c Fractals/julia.cpp
+g++-5 -std=c++14 -Wall -g  -c Fractals/mandelbrot.cpp
+g++-5 -std=c++14 -Wall -g  -c Display/winManager.cpp
+Display/winManager.cpp: In constructor ‘winManager::winManager()’:
+Display/winManager.cpp:17:39: warning: ‘void sf::Text::setColor(const sf::Color&)’ is deprecated [-Wdeprecated-declarations]
+  commandText.setColor(sf::Color::White);
+                                       ^
+In file included from /usr/local/include/SFML/Graphics.hpp:51:0,
+                 from Display/winManager.hpp:7,
+                 from Display/winManager.cpp:1:
+/usr/local/include/SFML/Graphics/Text.hpp:177:26: note: declared here
+     SFML_DEPRECATED void setColor(const Color& color);
+                          ^
+g++-5 -std=c++14 -Wall -g  -c Display/commandLine.cpp
+g++-5 -std=c++14 -Wall -g  -c Fractals/fManager.cpp
+g++-5 -std=c++14 -Wall -g  -c Interpreter/interpreter.cpp
+make: *** No rule to make target `Interpreter/tokens.cpp', needed by `token.o'.  Stop.

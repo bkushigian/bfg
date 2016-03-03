@@ -1,3 +1,7 @@
+/*** interpreter.hpp
+ * This file defines the interpreter class. This will be used to interpret
+ * command line and source files written in BFGlang ***/
+
 #ifndef interpreter_hpp
 #define interpreter_hpp
 
@@ -9,7 +13,9 @@
 #include "../Fractals/julia.hpp"
 #include "../Globals/globals.hpp"
 
-#include <map>
+#include <unordered_map>
+// Parser/Lexer/Tokens
+#include "parser.hpp"
 
 class interpreter : public object {
 private:
@@ -20,7 +26,7 @@ public:
 	interpreter();
 	interpreter(fManager* fm);
 	interpreter(fManager* fm, winManager* wm);
-	void parse(std::string c);
+	int parse(std::string c);
 };
 
 class tokenizer{

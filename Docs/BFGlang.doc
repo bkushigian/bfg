@@ -7,13 +7,14 @@ CMND [VERB] [ADJ] [NOUN] [OPTIONS...]
 	Each part of the command is seperated by a space. To continue a multi-line
 	command end first line with '\' and no trailing white-space.
 VERBs:
-	create 		[OBJ] [OPT...]			create new object
+	create 		[OBJ] *[{OPTs,...}]		create new object
 	remove 		[OBJ]					remove object from memory
-	tell 		[OBJ/CMND]				Give information on object OBJ
+	info 		[OBJ/CMND]				Give information on object OBJ
 	list 		[OPT...]				List current objects
-	populate 	[OBJ]					Populate the object
+	init  	 	[OBJ]					Populate the object
 	view 		[OBJ]					Bring object into view
 	dump 		[OBJ] [OPT...]			Dump info on object to designated location
+										in specified format (ppm, bin, txt, etc)
 	load 		[FILE]					Load a file into memory
 	save 		[OBJ] [FILE]			Save object to location
 
@@ -22,7 +23,7 @@ example:
 	let x = 2
 declares the variable x as an integer and assigns to it the value 2. If a 
 variable has been declared then it can be modified
-	x = 4
+	let x = 4
 Finally, a variable can be declared without initialization:
 	let (int) x
 Here we explicitly denote that x is an integer. Basic types have default values.
@@ -43,8 +44,8 @@ VARIABLE TYPES:
 	double:		
 
 OPTIONS will be specified as a list at the end of the command. There are two
-types of options: PARAMETERS and FLAGS. PARAMETERS are set as VARNAME=VALUE while
-FLAGS are set by just calling FLAGNAME. Further, FLAGS may be set with
+types of options: PARAMETERS and FLAGS. PARAMETERS are set as VARNAME=VALUE
+whilst FLAGS are set by just calling FLAGNAME. Further, FLAGS may be set with
 'TOGGLEMODE FLAGNAME', where TOGGLEMODE = {set/unset/toggle}. 
 
 =================================================================================	
@@ -65,6 +66,10 @@ FLAGS are set by just calling FLAGNAME. Further, FLAGS may be set with
 
 
 
-    ============================ PANELS objects =============================
 
 
+
+================================  IMPLEMENTED  =================================
+Parts of the language that have been implemented. The first thing to do is work
+on the `create` keyword and the `view` keyword. These will give the basic
+functionality needed to interface with BFG.
