@@ -26,14 +26,25 @@ enum class TOKEN {
 	PIPE,		// '|'
 // Operators	
 	EQUAL,		// '='
-	EQUALTO,	// '=='
-	PLUS,		// '+'
+	EQUALITY,	// '=='
+	ADD,		// '+'
 	SUBTRACT,	// '-'
 	MULTIPLY,	// '*'
 	DIVIDE, 	// '/'
+	INCR,		// "++"
+	DECR,		// "--"
+	PLUSEQ,		// "+="
+	MINUSEQ,	// "-="
+	MULTEQ,		// "*="
+	DIVEQ,		// "/="
 	POWER,		// '**'
 	ELIPSES,	// '..'
-
+	DOT,		// '.'
+	// Punctuation
+	SEMICOLON,	// ';'
+	QUOTE,		// '"'
+	APOSTROPHE,	// "'"
+// Keywords
 	LET,		// let: assignment `let x = 2`
 	VAR,		// variable
 
@@ -52,22 +63,31 @@ enum class TOKEN {
 
 	MANDELBROT,	// mandelbrot object
 	JULIA,		// julia object
-
+// Types
 	CHAR,
 	INT,
 	UINT,
 	STRING,
 	FLOAT,
+	IMAG,
 
 	MAX_TOKEN	// Sentinal Token
 };
 
 class token{
 public:
-	token(int type, std::string text);
+	token(){ 
+		type = TOKEN::NONE;
+		text = "NONE";
+	}
 
-	int type;
+	token(TOKEN type, std::string text);
+
+	TOKEN type;
 	std::string text;
+	std::string get_str();
+	int get_int();
+	double get_float();
 	
 
 	std::string toString();

@@ -146,6 +146,8 @@ int winManager::handleNormalEvent(sf::Event event){
 				case sf::Keyboard::G:
 				case sf::Keyboard::H:
 				case sf::Keyboard::I:
+                // Random line -- part of code or artifact?
+          //if ( FM.getCurrent-> ) 
 				case sf::Keyboard::J:
 				case sf::Keyboard::K:
 				case sf::Keyboard::L:

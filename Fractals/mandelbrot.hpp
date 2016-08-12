@@ -25,31 +25,37 @@ public:
     ~mandelbrot();
 	/* Inherited Functions */
 
-    void init();
+  void init();
 	sf::Uint16* getGrid();
 	std::string getName() { return name; }
 	FRACTAL_TYPE getType() { return type; }
 	DSP_MODE getDisplayMode() { return displayMode; }
 	void setName(std::string n) { name = n; }
 	sf::Uint16 iterations(cmplx z);
-    void resizeGrid(Uint16 h, Uint16 w);
+  void resizeGrid(Uint16 h, Uint16 w);
 	Uint16 getGridAt(Uint16 y, Uint16 x);
 	Uint32 getHeight() { return height; }
 	Uint32 getWidth() { return width; }
 	void draw();
-    std::string toString();
-    std::string toString(Uint16 chrs);
+  void zoomin();
+  void zoomout();
+  void moveup();
+  void movedown();
+  void moveleft();
+  void moveright();
+  std::string toString();
+  std::string toString(Uint16 chrs);
 
 
 private:
 	std::string chars;
 	int charSize;
-    cmplx topleft;
-    cmplx bottomright;
+  cmplx topleft;
+  cmplx bottomright;
 	Uint16 maxiter;
-    Uint16* grid;
-    Uint32 width;
-    Uint32 height;
+  Uint16* grid;
+  Uint32 width;
+  Uint32 height;
 	DSP_MODE displayMode;
 };
 

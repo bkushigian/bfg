@@ -26,8 +26,19 @@ const std::string tokenNames[] = {
 	"-",
 	"*",
 	"/",
+	"++",
+	"--",
+	"+=",
+	"-=",
+	"*=",
+	"/=",
 	"**",
 	"..",
+	".",
+
+	";",
+	"\"",
+	"'",
 
 	"let",
 	"VAR",
@@ -53,16 +64,33 @@ const std::string tokenNames[] = {
 	"uint",
 	"string",
 	"float",
+	"imag",
 
 	"MAX_TOKEN"
 };
 
 //constructor
-token::token(int type, std::string text){
+token::token(TOKEN type, std::string text){
 	this->type = type;
 	this->text = text;
 }
 
 std::string token::toString(){
-	return "<'" + text + "','" + tokenNames[type] + ">";
+	return "<'" + text + "', " + tokenNames[static_cast<int>(type)] + " >";
+}
+std::string token::get_str(){
+	return text;
+}
+int token::get_int(){
+	if (type == TOKEN::INT){
+		return std::atoi(text.c_str());
+	}
+	if (type == TOKEN::FLOAT){		// Truncates... Should error handle
+		return std::atoi(text.c_str());
+	}
+	return 0;			// Error handling ...
+}
+double token::get_float(){
+	if (type == TOKEN::FLOAT) return std::atof(text.c_str());
+	return 0;
 }

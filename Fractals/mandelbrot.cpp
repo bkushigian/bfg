@@ -10,10 +10,10 @@
 
 /*** mandelbrot class implementation ***/
 mandelbrot::mandelbrot(){
-    topleft = cmplx(-2.0,2.0);
-    bottomright = cmplx(2.0,-2.0);
-    maxiter = 60; width = 70; height = 50;
-    grid = new sf::Uint16[height * width];
+  topleft = cmplx(-2.0,2.0);
+  bottomright = cmplx(2.0,-2.0);
+  maxiter = 60; width = 70; height = 50;
+  grid = new sf::Uint16[height * width];
 	chars = "@.$,&-# +*";	
 	charSize = 10;
 	name = "Mandelbrot";
@@ -23,10 +23,10 @@ mandelbrot::mandelbrot(){
 }
 
 mandelbrot::mandelbrot(cmplx tl, cmplx br, sf::Uint16 height, sf::Uint16 width, sf::Uint16 max){
-    topleft = tl; bottomright = br;
-    this->width = width; this->height = height;
-    maxiter = max;
-    grid = new sf::Uint16[width * height];
+  topleft = tl; bottomright = br;
+  this->width = width; this->height = height;
+  maxiter = max;
+  grid = new sf::Uint16[width * height];
 
 	chars = "@.$,&-# +*";	
 	charSize = 10;
@@ -52,11 +52,11 @@ sf::Uint16 mandelbrot::iterations(cmplx z) {
 
 void mandelbrot::init(){
 	populated = true;
-    double deltaX = (bottomright - topleft).real()/width;
-    double deltaY = (topleft - bottomright).imag()/height;
-    for (sf::Uint32 i = 0; i < width * height; ++i){
-		grid[i] = iterations( topleft + cmplx(deltaX*(i%width), -deltaY*(i/height)) );
-    }
+  double deltaX = (bottomright - topleft).real()/width;
+  double deltaY = (topleft - bottomright).imag()/height;
+  for (sf::Uint32 i = 0; i < width * height; ++i){
+    grid[i] = iterations( topleft + cmplx(deltaX*(i%width), -deltaY*(i/height)) );
+  }
 }
 
 void mandelbrot::draw(){
@@ -98,7 +98,13 @@ std::string mandelbrot::toString(sf::Uint16 chrs){
     }
     return ss.str();
 }
-
+void mandelbrot::zoomin(){
+  cmplx center = (topleft + bottomright)/2.0;
+  topleft = (topleft - center)*0.8;
+  bottomright = (bottomright - center) * 0.8;
+  init();
+  draw();
+}
 /*** mandelbrotFactory ***/
 mandelbrotFactory::mandelbrotFactory(){
 		tl = cmplx(-2.0, 2.0); 

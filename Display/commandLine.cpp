@@ -9,7 +9,7 @@ commandLine::commandLine(){
 }
 
 void commandLine::insert(char c){		// insert char into string
-	// @ToDo: check for non-writable characters
+	// TODO: check for non-writable characters
 	buffer.insert(pos, 1, c);
 	++size;
 	++pos;
@@ -66,8 +66,10 @@ unsigned int commandLine::right(){
 }
 
 unsigned int commandLine::up(){
+    // TODO
 	return 0;
 }
 unsigned int commandLine::down(){
+    // TODO
 	return 0;
 }
